@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/jquery1.9.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			* {
+				padding: 0;
+				margin: 0;
+			}
+
+			body {
+				background-color: rgb(228, 228, 228);
+			}
+
+			#main {
+				width: 400px;
+				height: 350px;
+				background-color: rgba(255, 255, 255, .8);
+				margin: 150px auto;
+				border-radius: 4px;
+				box-shadow: 0 0 10px rgba(56, 24, 1, .6);
+			}
+
+			#huan {
+				border-bottom: 2px solid #bcc7c7;
+				height: 45px;
+				position: relative;
+			}
+
+			.tiao {
+				width: 70px;
+				height: 3px;
+				background-color: #bf0417;
+				position: absolute;
+				bottom: -2px;
+				left: 26px;
+				transition: all .5s;
+			}
+
+			.deng,
+			.zhu {
+				width: 100px;
+				height: 45px;
+				line-height: 45px;
+				text-align: center;
+				float: left;
+				margin-left: 10px;
+				margin-right: 10px;
+				font-family: "楷体";
+				font-size: 18px;
+				font-weight: 600;
+				color: rgb(117, 117, 117);
+				transition: all .5s;
+				cursor: pointer;
+			}
+
+			.active {
+				color: black;
+				transition: all .5s;
+			}
+
+			.dengform {
+				padding: 10px;
+				position: relative;
+			}
+
+			.dengform>div {
+				margin-top: 25px;
+				text-align: center;
+			}
+
+			.dengform input {
+				width: 75%;
+				height: 35px;
+				outline: none;
+				padding: 0px 20px;
+				border-radius: 4px;
+				font-size: 17px;
+				letter-spacing: 1px;
+				border: 1px solid #bcc7c7;
+			}
+
+			.dengform button {
+				width: 150px;
+				height: 40px;
+				outline: none;
+				border-radius: 5px;
+				font-size: 15px;
+				letter-spacing: 4px;
+				color: white;
+				background-color: #c14444;
+				border: 1px solid #bcc7c7;
+				transition: all .5s;
+				text-align: center;
+				margin-top: 10px;
+			}
+
+			.dengform button:hover {
+				color: white;
+				background-color: #777bce;
+				transition: all .5s;
+			}
+
+
+			.zhuform {
+				padding: 10px;
+				display: none;
+				position: relative;
+			}
+
+			.zhuform>div {
+				margin-top: 25px;
+				text-align: center;
+			}
+
+			.zhuform input {
+				width: 75%;
+				height: 35px;
+				outline: none;
+				padding: 0px 20px;
+				border-radius: 4px;
+				font-size: 17px;
+				letter-spacing: 1px;
+				border: 1px solid #bcc7c7;
+			}
+
+			.zhuform button {
+				width: 150px;
+				height: 40px;
+				outline: none;
+				border-radius: 5px;
+				font-size: 15px;
+				letter-spacing: 4px;
+				color: white;
+				background-color: #c14444;
+				border: 1px solid #bcc7c7;
+				transition: all .5s;
+				text-align: center;
+				margin-top: 10px;
+			}
+
+			.zhuform button:hover {
+				color: white;
+				background-color: #777bce;
+				transition: all .5s;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="main">
+			<div id="huan">
+				<div class="ani deng active">我要登录</div>
+				<div class="tiao"></div>
+			</div>
+			<div id="" class="dengform">
+				<div>
+					<input class="dengform-name" type="text" placeholder="用户名" name="" value="">
+				</div>
+				<div>
+					<input class="dengform-pas" type="password" placeholder="密码" name="" value="">
+				</div>
+				<div>
+					<button class="dengform-btn" type="button">登录</button>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			$(document).ready(function() {
+				
+				localStorage.setItem("user",JSON.stringify({name:"admin",password:"admin"}));
+				
+				$('#huan  div').on('click', function() {
+					$(this).addClass('active');
+					$(this).siblings().removeClass('active');
+				});
+				$('.deng').on('click', function() {
+					$('.dengform').show(500);
+					$('.zhuform').hide(500);
+					$('.zhuform-name').val('');
+					$('.zhuform-pas1').val('');
+					$('.zhuform-pas2').val('');
+				});
+				$('.zhu').on('click', function() {
+					$('.dengform').hide(500);
+					$('.zhuform').show(500);
+					$('.dengform-name').val('');
+					$('.dengform-pas').val('');
+				});
+
+				$('.ani').on('mouseover', function() {
+					var num = $(this).index();
+					var yi = num * 120 + 26;
+					var dong = yi + "px";
+					$('.tiao').css("left", dong);
+				})
+				$('.ani').on('mouseout', function() {
+					var num = $('.ani.active').index();
+					var yi = num * 120 + 26;
+					var dong = yi + "px";
+					$('.tiao').css("left", dong);
+				})
+
+
+				$('.dengform-name,.dengform-pas').on('focus', function() {
+					$(this).css("border", "1px solid black");
+				});
+				$('.dengform-name,.dengform-pas').on('blur', function() {
+					$(this).css("border", "1px solid #bcc7c7");
+				})
+
+				$(".dengform-btn").on("click", function() {
+					let name = $('.dengform-name').val();
+					let pas = $('.dengform-pas').val();
+
+					let local = JSON.parse(localStorage.getItem("user"));
+
+					if (name == local.name && pas == local.password) {
+						location.replace("index.html");
+					} else {
+						alert("登录失败")
+					}
+				})
+
+			})
+		</script>
+	</body>
+</html>

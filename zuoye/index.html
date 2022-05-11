@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>学生</title>
+		<script src="js/jquery1.9.js"></script>
+		<style>
+			#main {
+				text-align: center;
+			}
+
+			.context {
+				margin-top: 100px;
+				display: inline-block;
+			}
+
+			table,
+			td {
+				border: 1px solid black;
+			}
+
+			table {
+				border-collapse: collapse;
+				width: 500px;
+			}
+
+			td {
+				padding: 5px 20px;
+				text-align: center;
+			}
+
+			thead>tr>td {
+				background-color: aqua;
+				font-weight: 600;
+				padding: 10px 15px;
+			}
+			
+			.input{
+				margin: 20px auto;
+				width: 400px;
+			}
+			label{
+				display: inline-block;
+				width: 100px;
+				text-align: right;
+				/* border: 1px solid black; */
+			}
+		</style>
+	</head>
+	<body>
+		<div id="main">
+			<div class="context">
+				<table>
+					<caption>学生信息管理系统</caption>
+					<thead>
+						<tr>
+							<td>姓名</td>
+							<td>性别</td>
+							<td>班级</td>
+						</tr>
+					</thead>
+					<tbody id="tb">
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+		<div class="input">
+			<label>学生姓名：</label>
+			<input type="text" name="name" id="">
+			<br>
+			<label>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</label>
+			<input type="radio" name="sex" value="男">男
+			<input type="radio" name="sex" value="女">女
+			<br>
+			<label>班&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级：</label>
+			<input type="text" name="cls" id="">
+			<br><br>
+			<button>添加</button>
+		</div>
+
+
+		<script>
+			$(document).ready(function() {
+				let students = JSON.parse(localStorage.getItem("students")) || [];
+				console.log(students.length)
+				let html = "";
+				for (let i = 0; i < students.length; i++) {
+					html += `<tr>
+						<td>${students[i].name}</td>
+						<td>${students[i].sex}</td>
+						<td>${students[i].cls}</td>
+					</tr>`;
+				}
+
+
+				$("#tb").html(html)
+
+
+
+				$("button").on("click", function() {
+					let student = {}
+					let name = $("input[name='name']").val();
+					let sex = $("input[type='radio']:checked").val();
+					let cls = $("input[name='cls']").val();
+
+					student.name = name;
+					student.sex = sex;
+					student.cls = cls;
+
+					students.push(student)
+					localStorage.setItem("students", JSON.stringify(students));
+					location.reload(true);
+
+				})
+			})
+		</script>
+
+	</body>
+</html>
